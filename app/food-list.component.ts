@@ -1,19 +1,22 @@
 import { Component, EventEmitter } from 'angular2/core';
 import {FoodComponent} from './food.component';
 import { Food } from './food.model';
+import {EditFoodDetailsComponent} from './edit-food-details.component';
 
 
 @Component({
   selector: 'food-list',
   inputs: ['foodList'],
   outputs: ['onFoodSelect'],
-  directives: [FoodComponent],
+  directives: [FoodComponent, EditFoodDetailsComponent],
   template: `
   <food-display *ngFor="#currentFood of foodList"
   (click)="foodClicked(currentFood)"
   [class.selected]="currentFood === selectedFood"
   [food]="currentFood">
   </food-display>
+  <edit-food-details *ngIf="selectedFood" [food] = "selectedFood">
+  </edit-food-details>
   `
 })
 
@@ -25,7 +28,7 @@ export class FoodListComponent{
     this.onFoodSelect = new EventEmitter();
   }
   foodClicked(clickedFood: Food): void {
-    console.log(clickedFood);
+    console.log("Food name: " + clickedFood.name + " Details: " + clickedFood.details + " Calories: " + clickedFood.calories );
     this.selectedFood = clickedFood;
     this.onFoodSelect.emit(clickedFood);
   }
