@@ -22,7 +22,8 @@ import {HealthyPipe} from './healthy.pipe';
   <food-display *ngFor="#currentFood of foodList | healthy:filterHealthy"
   (click)="foodClicked(currentFood)"
   [class.selected]="currentFood === selectedFood"
-  [food]="currentFood">
+  [food]="currentFood"
+  >
   </food-display>
   <edit-food-details *ngIf="selectedFood" [food] = "selectedFood">
   </edit-food-details>
@@ -35,6 +36,7 @@ export class FoodListComponent{
   public onFoodSelect: EventEmitter<Food>;
   public selectedFood: Food;
   public filterHealthy: string = "all";
+  public foodClickedDetails: string;
   constructor() {
     this.onFoodSelect = new EventEmitter();
   }
@@ -42,6 +44,7 @@ export class FoodListComponent{
     console.log("Food name: " + clickedFood.name + " Details: " + clickedFood.details + " Calories: " + clickedFood.calories );
     this.selectedFood = clickedFood;
     this.onFoodSelect.emit(clickedFood);
+    this.foodClickedDetails = clickedFood.details;
   }
   createFood(newFoodInfo: string[]): void {
     this.foodList.push(
